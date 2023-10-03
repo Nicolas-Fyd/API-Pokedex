@@ -14,6 +14,27 @@ const filteredPokedexObject = pokedexObject.map(pokemon => ({
     weight: pokemon.profile.weight
 }));
 
+const pokemonTypes = [
+    "Normal",
+    "Feu",
+    "Eau",
+    "Plante",
+    "Électrik",
+    "Glace",
+    "Combat",
+    "Poison",
+    "Sol",
+    "Vol",
+    "Psy",
+    "Insecte",
+    "Roche",
+    "Spectre",
+    "Dragon",
+    "Acier",
+    "Ténèbres",
+    "Fée"
+  ];
+
 async function importPokemon() {
     await client.query("TRUNCATE pokemon CASCADE");
 
@@ -43,9 +64,42 @@ async function importPokemon() {
     catch (error) {
         console.error(error);
     }
-    
-    await client.end()
 }
 
-importPokemon()
+async function importTypes() {
+    await client.query("TRUNCATE type CASCADE")
 
+    const filters = [];
+    let counter = 1;
+
+    pokemonTypes.forEach(type => {
+        filters.push(`($${counter})`);
+        counter += 1;
+    })
+
+    const preparedQuery = {
+        text: `
+        INSERT INTO type
+        (name)
+        VALUES
+        ${filters};`,
+        values: pokemonTypes
+    };
+
+    try {
+        await client.query(preparedQuery);
+        console.log('Insertion des types terminés');
+    } 
+    catch (error) {
+        console.error(error);
+    }
+}
+
+async function importData() {
+    await importPokemon();
+    await importTypes();
+
+    await client.end();
+}
+
+importData();
