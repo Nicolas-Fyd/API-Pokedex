@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=pokedex
+
+1.create_tables 2023-10-03T12:50:14Z Nicolas <nicolas@nicolas-VirtualBox> # tables creation
