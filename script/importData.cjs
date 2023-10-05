@@ -12,7 +12,14 @@ const filteredPokedexObject = pokedexObject.map(pokemon => ({
     name: pokemon.name.french,
     description: pokemon.description,
     height: pokemon.profile.height,
-    weight: pokemon.profile.weight
+    weight: pokemon.profile.weight,
+    hp: pokemon.base.HP,
+    attack: pokemon.base.Attack,
+    defense: pokemon.base.Defense,
+    spe_attack: pokemon.base["Sp. Attack"],
+    spe_defense: pokemon.base["Sp. Defense"],
+    speed: pokemon.base.Speed,
+    image: pokemon.image.hires
 }));
 
 // Tableau des types
@@ -46,15 +53,15 @@ async function importPokemon() {
     let counter = 1;
 
     filteredPokedexObject.forEach(pokemon => {
-        filters.push(`($${counter}, $${counter + 1}, $${counter + 2}, $${counter + 3})`);
-        values.push(pokemon.name, pokemon.description, pokemon.height, pokemon.weight);
-        counter += 4
+        filters.push(`($${counter}, $${counter + 1}, $${counter + 2}, $${counter + 3}, $${counter + 4}, $${counter + 5}, $${counter + 6}, $${counter + 7}, $${counter + 8}, $${counter + 9}, $${counter + 10})`);
+        values.push(pokemon.name, pokemon.description, pokemon.height, pokemon.weight, pokemon.hp, pokemon.attack, pokemon.defense, pokemon.spe_attack, pokemon.spe_defense, pokemon.speed, pokemon.image);
+        counter += 11
     });
 
     const preparedQuery = {
         text: `
         INSERT INTO pokemon
-        (name, description, height, weight)
+        (name, description, height, weight, hp, attack, defense, spe_attack, spe_defense, speed, image)
         VALUES
         ${filters.join(',')};`,
         values
@@ -99,6 +106,7 @@ async function importTypes() {
     }
 }
 
+// Fonction pour remplir la table "pokemon_type"
 async function importPokemonType() {
     await client.query("TRUNCATE pokemon_type CASCADE");
 
@@ -107,15 +115,10 @@ async function importPokemonType() {
     let counter = 1;
 
     pokedexObject.forEach(pokemon => {
-        // typeLength = pokemon.type.length;
-
-        // const typePlaceholders = Array.from({ length: typeLength }, (_, i) => `$${counter + i}`);
-        // filters.push(`(${typePlaceholders.join(',')})`);
-        // counter += typeLength;
-
         pokemon.type.forEach(type => {
             filters.push(`($${counter}, $${counter + 1})`);
             values.push(pokemon.id);
+            // Ici, pour chaque type on va chercher l'index du type correspondant et on y ajoute 1 (l'index d'un tableau commençant par 0)
             values.push(pokemonTypes.findIndex(typeInArray => typeInArray === type) + 1);
             counter += 2;
         });

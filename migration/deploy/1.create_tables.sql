@@ -9,6 +9,13 @@ CREATE TABLE pokemon
     "description" TEXT NOT NULL,
     "height" TEXT NOT NULL,
     "weight" TEXT NOT NULL,
+    "hp" INTEGER NOT NULL,
+    "attack" INTEGER NOT NULL,
+    "defense" INTEGER NOT NULL,
+    "spe_attack" INTEGER NOT NULL,
+    "spe_defense" INTEGER NOT NULL,
+    "speed" INTEGER NOT NULL,
+    "image" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
