@@ -24,6 +24,23 @@ const pokemonController = {
             return next(new APIError(`Erreur interne : ${error}`,500));
         }       
     },
+
+    /**
+     * Gets pokemon by his id
+     * @param {object} req Express' request
+     * @param {object} res Express' response
+     * @param {function} next Express' function executing the succeeding middleware
+     * @return {Pokemon} a Pokemon instance
+     * @returns {APIError} error
+     */
+    async getPokemonById( req, res, next) {
+        try {
+            const pokemon = await Pokemon.findByPk(req.params.id);
+            res.json(pokemon);
+        } catch (error) {
+            return next(new APIError(`Erreur interne : ${error}`,500));
+        }
+    }
 };
 
 module.exports = pokemonController;

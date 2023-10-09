@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-const {pokemonRouter } = require("./app/routers/index");
+const { pokemonRouter } = require("./app/routers/index");
 
 app.use(pokemonRouter);
 

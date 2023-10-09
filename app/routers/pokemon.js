@@ -12,9 +12,17 @@ const pokemonRouter = Router();
 /**
  * @route GET /pokemon
  * @group Pokemon - Getting all existing pokemons
- * @return {Pokemon[]} an array of pokemon instances
+ * @return {Pokemon[]} an array of Pokemon instances
  * @returns {APIError} error
  */
 pokemonRouter.get("/pokemon", pokemonController.getAllPokemons);
+
+/**
+ * @route GET /pokemon/:id
+ * @group Pokemon - Getting a pokemon by his id
+ * @return {Pokemon} a Pokemon instance
+ * @returns {APIError} error
+ */
+pokemonRouter.get("/pokemon/:id(\\d+)", pokemonController.getPokemonById);
 
 module.exports = pokemonRouter;

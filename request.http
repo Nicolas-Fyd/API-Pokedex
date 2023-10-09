@@ -1,2 +1,7 @@
 # GET ALL POKEMONS INFORMATIONS
 GET http://localhost:3000/pokemon
+
+###
+
+# GET A POKEMONS INFORMATION
+GET http://localhost:3000/pokemon/150
