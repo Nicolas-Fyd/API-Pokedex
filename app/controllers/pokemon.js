@@ -17,7 +17,7 @@ const pokemonController = {
      */
     async getAllPokemons (req, res, next) {
         try {
-            const pokemons = await Pokemon.findAll();
+            const pokemons = await Pokemon.findAllPokemonsWithTypes();
 
             res.json(pokemons);
         } catch (error) {
