@@ -15,6 +15,6 @@ const typeRouter = Router();
  * @return {Type[]} an array of Type instances
  * @returns {APIError} error
  */
-typeRouter.get("/type", typeController.getAllTypes);
+typeRouter.get("/", typeController.getAllTypes);
 
 module.exports = typeRouter;

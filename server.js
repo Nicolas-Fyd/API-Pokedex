@@ -9,8 +9,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const { pokemonRouter, typeRouter } = require("./app/routers/index");
 
-app.use(pokemonRouter);
-app.use(typeRouter);
+app.use("/pokemon", pokemonRouter);
+app.use("/type", typeRouter);
 
 // Error management
 const errorModule = require("./app/services/error/errorHandling");
