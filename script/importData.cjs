@@ -44,6 +44,49 @@ const pokemonTypes = [
     "Fairy"
 ];
 
+const typeColors = [
+    "#A8A878",
+    "#F08030",
+    "#6890F0",
+    "#78C850",
+    "#F8D030",
+    "#98D8D8",
+    "#C03028",
+    "#A040A0",
+    "#E0C068",
+    "#A890F0",
+    "#F85888",
+    "#A8B820",
+    "#B8A038",
+    "#705898",
+    "#7038F8",
+    "#B8B8D0",
+    "#705848",
+    "#EE99AC"
+  ];
+  
+const pokemonTypesAndColors = [
+    "Normal", "#A8A878",
+    "Fire", "#F08030",
+    "Water", "#6890F0",
+    "Grass", "#78C850",
+    "Electric", "#F8D030",
+    "Ice", "#98D8D8",
+    "Fighting", "#C03028",
+    "Poison", "#A040A0",
+    "Ground", "#E0C068",
+    "Flying", "#A890F0",
+    "Psychic", "#F85888",
+    "Bug", "#A8B820",
+    "Rock", "#B8A038",
+    "Ghost", "#705898",
+    "Dragon", "#7038F8",
+    "Steel", "#B8B8D0",
+    "Dark", "#705848",
+    "Fairy", "#EE99AC"
+];
+  
+
 // Fonction pour remplir la table "pokemon"
 async function importPokemon() {
     await client.query("TRUNCATE pokemon CASCADE");
@@ -84,17 +127,17 @@ async function importTypes() {
     let counter = 1;
 
     pokemonTypes.forEach(type => {
-        filters.push(`($${counter})`);
-        counter += 1;
+        filters.push(`($${counter}, $${counter + 1})`);
+        counter += 2;
     })
 
     const preparedQuery = {
         text: `
         INSERT INTO type
-        (name)
+        (name, color)
         VALUES
-        ${filters};`,
-        values: pokemonTypes
+        ${filters.join(',')};`,
+        values: pokemonTypesAndColors
     };
 
     try {
