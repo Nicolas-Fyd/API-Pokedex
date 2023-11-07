@@ -19,7 +19,9 @@ const filteredPokedexObject = pokedexObject.map(pokemon => ({
     spe_attack: pokemon.base["Sp. Attack"],
     spe_defense: pokemon.base["Sp. Defense"],
     speed: pokemon.base.Speed,
-    image: pokemon.image.hires
+    image: pokemon.image.hires,
+    sprite: pokemon.image.sprite,
+    thumbnail: pokemon.image.thumbnail
 }));
 
 // Tableau des types
@@ -96,15 +98,15 @@ async function importPokemon() {
     let counter = 1;
 
     filteredPokedexObject.forEach(pokemon => {
-        filters.push(`($${counter}, $${counter + 1}, $${counter + 2}, $${counter + 3}, $${counter + 4}, $${counter + 5}, $${counter + 6}, $${counter + 7}, $${counter + 8}, $${counter + 9}, $${counter + 10})`);
-        values.push(pokemon.name, pokemon.description, pokemon.height, pokemon.weight, pokemon.hp, pokemon.attack, pokemon.defense, pokemon.spe_attack, pokemon.spe_defense, pokemon.speed, pokemon.image);
-        counter += 11
+        filters.push(`($${counter}, $${counter + 1}, $${counter + 2}, $${counter + 3}, $${counter + 4}, $${counter + 5}, $${counter + 6}, $${counter + 7}, $${counter + 8}, $${counter + 9}, $${counter + 10}, $${counter + 11}, $${counter + 12})`);
+        values.push(pokemon.name, pokemon.description, pokemon.height, pokemon.weight, pokemon.hp, pokemon.attack, pokemon.defense, pokemon.spe_attack, pokemon.spe_defense, pokemon.speed, pokemon.image, pokemon.sprite, pokemon.thumbnail);
+        counter += 13
     });
 
     const preparedQuery = {
         text: `
         INSERT INTO pokemon
-        (name, description, height, weight, hp, attack, defense, spe_attack, spe_defense, speed, image)
+        (name, description, height, weight, hp, attack, defense, spe_attack, spe_defense, speed, image, sprite, thumbnail)
         VALUES
         ${filters.join(',')};`,
         values

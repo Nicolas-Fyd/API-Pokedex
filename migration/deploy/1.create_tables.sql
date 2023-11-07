@@ -16,6 +16,8 @@ CREATE TABLE pokemon
     "spe_defense" INTEGER NOT NULL,
     "speed" INTEGER NOT NULL,
     "image" TEXT NOT NULL,
+    "sprite" TEXT NOT NULL,
+    "thumbnail" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
