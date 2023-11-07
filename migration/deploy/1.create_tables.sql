@@ -38,4 +38,13 @@ CREATE TABLE pokemon_type
     "updated_at" TIMESTAMPTZ
 );
 
+CREATE TABLE evolution
+(
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "state" TEXT NOT NULL,
+    "evolutionId" TEXT NOT NULL,
+    "condition" TEXT NOT NULL,
+    "pokemon_id" INTEGER REFERENCES pokemon(id) ON DELETE CASCADE
+);
+
 COMMIT;

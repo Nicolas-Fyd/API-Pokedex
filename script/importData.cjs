@@ -185,11 +185,80 @@ async function importPokemonType() {
     }
 }
 
+// Fonction pour remplir la table "evolution"
+async function importEvolution() {
+    await client.query("TRUNCATE evolution CASCADE");
+
+    const filters = [];
+    const values = [];
+    let counter = 1;
+    const insertQueries = [];
+
+    // On va vérifier pour chaque pokemon si il existe des évolutions précédentes ou suivantes
+    // Puis on va les push dans le tableau insertQueries
+    pokedexObject.forEach((pokemon) => {
+        // Si une évolution précédente existe on push les données dans l'ordre de la table
+        if (pokemon.evolution.prev) {
+                const [prevId, condition] = pokemon.evolution.prev;
+                if (prevId && condition) {
+                    insertQueries.push([
+                        'prev',
+                        prevId,
+                        condition,
+                        pokemon.id,
+                    ]);
+                }
+        };
+
+        // Si une évolution suivante existe on push les données dans l'ordre de la table
+        // Attention le json récupéré est différent entre precédent/suivant (double tableau pour les suivantes)
+        if (pokemon.evolution.next) {
+            pokemon.evolution.next.forEach((evolution) => {
+                const [nextId, condition] = evolution;
+                if (condition) {
+                    insertQueries.push([
+                        'next',
+                        nextId,
+                        condition,
+                        pokemon.id,
+                    ]);   
+                }
+            });
+        };
+    });
+
+    // Pour chaque query du tableau, on va push des placeholders (en fonction du nombre de colonnes) dans le tableau filter, push les valeurs dans le tableau values et ajouter a counter le nombre correspondant de colonnes
+    insertQueries.forEach((query) => {
+        filters.push(`($${counter}, $${counter + 1}, $${counter + 2}, $${counter + 3})`);
+        values.push(...query);
+        counter += 4;
+    });
+
+    // Requête unique pour insérer toutes les données dans la table evolution
+    const preparedQuery = {
+        text: `
+        INSERT INTO evolution
+        ("state", "evolutionId", "condition", "pokemon_id")
+        VALUES
+        ${filters.join(',')};`,
+        values
+    };
+
+    try {
+        await client.query(preparedQuery);
+        console.log('Insertion des évolutions terminés');
+    } 
+    catch (error) {
+        console.error(error);
+    }
+}
+
 // Fonction qui lance les différentes fonctions qui peuplent la BDD et termine la connexion à la BDD
 async function importData() {
     await importPokemon();
     await importTypes();
     await importPokemonType();
+    await importEvolution();
 
     await client.end();
 }

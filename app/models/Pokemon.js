@@ -42,7 +42,10 @@ class Pokemon extends Core {
                 'speed', p.speed
             ) stats,
             ARRAY_AGG(
-                t.name
+                json_build_object(
+					'name', t.name,
+					'color', t.color
+        		) ORDER BY t.name ASC
             ) types,
             p.image
         FROM pokemon p
