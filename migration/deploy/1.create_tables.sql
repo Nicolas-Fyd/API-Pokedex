@@ -44,9 +44,22 @@ CREATE TABLE evolution
 (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "state" TEXT NOT NULL,
-    "evolutionId" TEXT NOT NULL,
+    "evolutionid" TEXT NOT NULL,
     "condition" TEXT NOT NULL,
     "pokemon_id" INTEGER REFERENCES pokemon(id) ON DELETE CASCADE
+);
+
+CREATE TABLE weaknessandresist
+(
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "multiplier" NUMERIC NOT NULL
+);
+
+CREATE TABLE type_has_weaknessandresist(
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "type_id" INTEGER REFERENCES type(id) ON DELETE CASCADE,
+    "typecoverage_id" INTEGER REFERENCES type(id) ON DELETE CASCADE,
+    "weaknessandresist_id" INTEGER REFERENCES weaknessandresist(id) ON DELETE CASCADE
 );
 
 COMMIT;

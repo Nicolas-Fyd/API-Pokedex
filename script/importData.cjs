@@ -46,27 +46,6 @@ const pokemonTypes = [
     "Fairy"
 ];
 
-const typeColors = [
-    "#A8A878",
-    "#F08030",
-    "#6890F0",
-    "#78C850",
-    "#F8D030",
-    "#98D8D8",
-    "#C03028",
-    "#A040A0",
-    "#E0C068",
-    "#A890F0",
-    "#F85888",
-    "#A8B820",
-    "#B8A038",
-    "#705898",
-    "#7038F8",
-    "#B8B8D0",
-    "#705848",
-    "#EE99AC"
-  ];
-  
 const pokemonTypesAndColors = [
     "Normal", "#A8A878",
     "Fire", "#F08030",
@@ -240,7 +219,7 @@ async function importEvolution() {
     const preparedQuery = {
         text: `
         INSERT INTO evolution
-        ("state", "evolutionId", "condition", "pokemon_id")
+        ("state", "evolutionid", "condition", "pokemon_id")
         VALUES
         ${filters.join(',')};`,
         values

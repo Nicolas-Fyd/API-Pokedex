@@ -41,16 +41,50 @@ class Pokemon extends Core {
                 'spe_defense', p.spe_defense, 
                 'speed', p.speed
             ) stats,
-            ARRAY_AGG(
-                json_build_object(
-					'name', t.name,
-					'color', t.color
-        		) ORDER BY t.name ASC
+            (
+                SELECT ARRAY_AGG(
+                    json_build_object(
+                        'name', t.name,
+                        'color', t.color
+                    ) ORDER BY t.name ASC
+                )
+                FROM pokemon_type pt
+                JOIN type t ON t.id = pt.type_id
+                WHERE pt.pokemon_id = p.id
             ) types,
-            p.image
+            (
+                SELECT ARRAY_AGG(
+                    json_build_object(
+                        'state', e.state,
+                        'evolutionId', e.evolutionid,
+                        'condition', e.condition
+                    ) ORDER BY e.evolutionid ASC
+                )
+                FROM evolution e
+                WHERE e.pokemon_id = p.id
+            ) evolution,
+            p.image,
+            p.sprite,
+            p.thumbnail,
+            (
+                SELECT ARRAY_AGG(
+                    json_build_object(
+                        'typecoverage_id', thw.typecoverage_id,
+                        'nom_typecouverture', tc.name,
+                        'multiplier', w.multiplier
+                    ) ORDER BY thw.typecoverage_id ASC
+                )
+                FROM type T
+                JOIN type_has_weaknessandresist thw ON t.id = thw.type_id
+                JOIN weaknessandresist w ON w.id = thw.weaknessandresist_id
+                JOIN type tc ON tc.id = thw.typecoverage_id
+                WHERE t.id = ANY (
+                    SELECT pt.type_id
+                    FROM pokemon_type pt
+                    WHERE pt.pokemon_id = p.id
+                )
+            ) AS weakness_and_resist
         FROM pokemon p
-        JOIN pokemon_type pt ON p.id = pt.pokemon_id
-        JOIN type t ON t.id = pt.type_id
         GROUP BY p.id, p.name, p.description, p.height, p.weight, p.hp, p.attack, p.defense, p.spe_attack, p.spe_defense, p.speed, p.image
         ORDER BY p.id;`
         }
