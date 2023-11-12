@@ -57,6 +57,7 @@ class Pokemon extends Core {
                     json_build_object(
                         'state', e.state,
                         'evolutionId', e.evolutionid,
+						'evolutionName', (SELECT p2.name FROM pokemon p2 WHERE p2.id = CAST(e.evolutionid AS INTEGER)),
                         'condition', e.condition
                     ) ORDER BY e.evolutionid ASC
                 )
@@ -70,7 +71,8 @@ class Pokemon extends Core {
                 SELECT ARRAY_AGG(
                     json_build_object(
                         'typecoverage_id', thw.typecoverage_id,
-                        'nom_typecouverture', tc.name,
+                        'name_typecoverage', tc.name,
+                        'color_typecoverage', tc.color,
                         'multiplier', w.multiplier
                     ) ORDER BY thw.typecoverage_id ASC
                 )
