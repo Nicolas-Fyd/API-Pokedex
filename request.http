@@ -9,3 +9,16 @@ GET http://localhost:3000/pokemon/150
 ###
 
 GET http://localhost:3000/type
+
+###
+
+# ACCOUNT CREATION
+POST http://localhost:3000/sign-up
+Content-Type: application/json
+
+{
+    "pseudo": "Charlatan",
+    "email":"antho.mirland@gmail.com",
+    "password":"Azerty123!",
+    "confirmpassword": "Azerty123!",
+}

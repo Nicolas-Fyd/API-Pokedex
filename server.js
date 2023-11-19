@@ -7,10 +7,11 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-const { pokemonRouter, typeRouter } = require("./app/routers/index");
+const { pokemonRouter, typeRouter, authentificationRouter } = require("./app/routers/index");
 
 app.use("/pokemon", pokemonRouter);
 app.use("/type", typeRouter);
+app.use(authentificationRouter);
 
 // Error management
 const errorModule = require("./app/services/error/errorHandling");

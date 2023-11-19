@@ -125,3 +125,8 @@ VALUES
 (18,12,1),
 (18,8,2),
 (18,17,1);
+
+INSERT INTO role(name)
+VALUES 
+('admin'),
+('user');
