@@ -20,5 +20,16 @@ Content-Type: application/json
     "pseudo": "Charlatan",
     "email":"antho.mirland@gmail.com",
     "password":"Azerty123!",
-    "confirmpassword": "Azerty123!",
+    "confirmpassword": "Azerty123!"
+}
+
+###
+
+# USER LOGIN
+POST http://localhost:3000/sign-in
+Content-Type: application/json
+
+{
+    "email":"antho.mirland@gmail.com",
+    "password":"Azerty123!"
 }

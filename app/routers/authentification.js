@@ -18,4 +18,13 @@ const authentificationRouter = Router();
  */
 authentificationRouter.post("/sign-up", validationModule.validateUserCreation, userController.signUp);
 
+/**
+ * @route POST /sign-in
+ * @group User - Managing sign in
+ * @param {User} user.body.required - User Object
+ * @returns {object} 200 - Jwt's access token, user's pseudo an user's role_id
+ * @returns {APIError} error
+ */
+authentificationRouter.post("/sign-in", userController.signIn);
+
 module.exports = authentificationRouter;

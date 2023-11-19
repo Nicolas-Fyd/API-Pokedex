@@ -2,6 +2,7 @@ const APIError = require("../services/error/APIError");
 const { User } = require("../models/index");
 const debug = require('debug')("controller:user");
 const bcrypt = require('bcrypt');
+const authentificationToken = require('../services/JWT/generateToken');
 
 /**
  * @typedef {import('../models/index').Type} Type;
@@ -36,6 +37,45 @@ const userController = {
                 return next(new APIError("Erreur lors de l'inscription", 500));
             }
         },
+
+        /**
+     * Verifies a user's connexion form using their email and password
+     * @param {object} req Express' request
+     * @param {object} res Express' response
+     * @param {function} next Express' function executing the succeeding middleware
+     * @return {object} return an object with jwt's access token, user's firstname, role_id, ecocoins and score
+     * @returns {APIError} error
+     */
+    async signIn (req,res,next) {
+        const { email, password } = req.body;
+        
+        try {
+            // Checking if an account exists with this email
+            const user = await User.findByEmail(email);
+            if(!user) {
+                return next(new APIError('Couple login/mot de passe est incorrect.', 401));
+            }
+            // Checking if the password is matching
+            const hasMatchingPassword = await bcrypt.compare(password, user.password);
+            if(!hasMatchingPassword) {
+                return next(new APIError('Couple login/mot de passe est incorrect.', 401));
+            }
+
+            // Generating a token containing only the necessary information
+            const accessToken = authentificationToken.generateAccessToken({id : user.id, role_id: user.role_id});
+            const refreshToken = authentificationToken.generateRefreshToken({id : user.id, role_id: user.role_id});
+
+            res.json({ 
+                accessToken,
+                refreshToken, 
+                pseudo : user.pseudo,
+                role_id : user.role_id,
+            });
+        } catch (error) {
+            return next(new APIError(`Erreur interne : ${error}`,500));
+        }
+
+     },
 };
 
 module.exports = userController;
