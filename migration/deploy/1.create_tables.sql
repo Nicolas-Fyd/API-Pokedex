@@ -88,4 +88,13 @@ CREATE TABLE "user"
     "updated_at" TIMESTAMPTZ
 );
 
+CREATE TABLE "user_has_pokemon"
+(
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "user_id" INTEGER REFERENCES "user"(id) ON DELETE CASCADE,
+    "pokemon_id" INTEGER REFERENCES pokemon(id) ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
 COMMIT;
