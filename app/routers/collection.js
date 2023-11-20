@@ -10,6 +10,14 @@ const collectionRouter = Router();
  */
 
 /**
+ * @route GET /me/collection
+ * @group UserPokemon - Getting the user's pokemons collection
+ * @returns {UserPokemon[]} an array of UserPokemon instances
+ * @returns {APIError} error
+ */
+collectionRouter.get("/", userPokemonController.getUsersPokemonsCollection);
+
+/**
  * @route POST /me/collection
  * @group UserPokemon - Adding a pokemon in user's collection
  * @returns {void} - No Content (HTTP 200) response

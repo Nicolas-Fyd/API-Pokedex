@@ -31,7 +31,25 @@ const userPokemonController = {
         } catch (error) {
             return next(new APIError(`Erreur interne : ${error}`,500));
         }
-    }
+    },
+
+    /**
+     * Gets all pokemons belonging to a user's collection
+     * @param {object} req Express' request
+     * @param {object} res Express' response
+     * @param {function} next Express' function executing the succeeding middleware
+     * @return {UserPokemon[]} an array of UserPokemon instances
+     * @returns {APIError} error
+     */
+        async getUsersPokemonsCollection (req, res, next) {
+            try {
+                const userPokemons = await UserPokemon.findAllUsersPokemons(req.user.id);
+    
+                res.json(userPokemons);
+            } catch (error) {
+                return next(new APIError(`Erreur interne : ${error}`,500));
+            }        
+        },
 };
 
 module.exports = userPokemonController;
