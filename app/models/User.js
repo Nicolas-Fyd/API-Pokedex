@@ -27,6 +27,20 @@ class User extends Core {
         const result = await this.client.query(preparedQuery);
         return result.rows[0];
     };
+
+    /**
+     * Gets a User instance corresponding to a given pseudo
+     * @param {string} pseudo user's pseudo
+     * @returns {User} a User instance
+     */
+    async findByPseudo(pseudo) {
+        const preparedQuery = {
+            text : `SELECT * FROM "user" WHERE pseudo = $1`,
+            values: [pseudo]
+        }
+        const result = await this.client.query(preparedQuery);
+        return result.rows[0];
+    };
 };
 
 module.exports = new User(client);

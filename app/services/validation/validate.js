@@ -19,9 +19,13 @@ const validationModule = {
     async validateUserCreation(req, _, next) {
         // Testing email uniqueness
         try {
-            const user = await User.findByEmail(req.body.email);
-            if(user) {
+            const userEmail = await User.findByEmail(req.body.email);
+            if(userEmail) {
                 next(new APIError('Cet email est déjà pris.', 400));
+            }
+            const userPseudo = await User.findByPseudo(req.body.pseudo);
+            if(userPseudo) {
+                next(new APIError('Ce pseudo est déjà pris.', 400));
             }
         } catch (error) {
             debug(error);

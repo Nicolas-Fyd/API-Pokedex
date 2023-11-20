@@ -1,3 +1,8 @@
+# TOKEN 
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZV9pZCI6MiwiaWF0IjoxNzAwNDg4ODQyLCJleHAiOjE3MDA0OTA2NDJ9.nSekZ72lr5NIkRRM2RTrza3H2gDGO1s6zq3kXIVuRQ8
+
+
+
 # GET ALL POKEMONS INFORMATIONS
 GET http://localhost:3000/pokemon
 
@@ -32,4 +37,16 @@ Content-Type: application/json
 {
     "email":"antho.mirland@gmail.com",
     "password":"Azerty123!"
+}
+
+###
+
+
+# ADDING A POKEMON IN USER'S COLLECTION
+POST http://localhost:3000/me/collection
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "pokemonId":1
 }
