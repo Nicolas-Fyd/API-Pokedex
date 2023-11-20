@@ -1,5 +1,5 @@
 # TOKEN 
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZV9pZCI6MiwiaWF0IjoxNzAwNDg4ODQyLCJleHAiOjE3MDA0OTA2NDJ9.nSekZ72lr5NIkRRM2RTrza3H2gDGO1s6zq3kXIVuRQ8
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZV9pZCI6MiwiaWF0IjoxNzAwNDkxOTIyLCJleHAiOjE3MDA0OTM3MjJ9.5A3mLrrJzh6SvR_mMtvgng1kh-oV4F7kSKxelTdpZks
 
 
 
@@ -42,6 +42,14 @@ Content-Type: application/json
 ###
 
 
+# GETTING ALL POKEMONS IN USER'S COLLECTION
+GET  http://localhost:3000/me/collection
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+
 # ADDING A POKEMON IN USER'S COLLECTION
 POST http://localhost:3000/me/collection
 Content-Type: application/json
@@ -50,3 +58,11 @@ Authorization: {{token}}
 {
     "pokemonId":1
 }
+
+
+###
+
+# DELETING A POKEMON IN USER'S COLLECTION
+DELETE  http://localhost:3000/me/collection/150
+Content-Type: application/json
+Authorization: {{token}}

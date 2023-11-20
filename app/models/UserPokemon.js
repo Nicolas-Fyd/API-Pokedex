@@ -100,6 +100,22 @@ class UserPokemon extends Core {
         return result.rows;
     };
 
+    /**
+     * Deletes a specific UserPokemon instance corresponding to a certain user id and pokemon id
+     * @param {number} userId - instance's user's id
+     * @param {number} pokemonId - instance's pokemon's id
+     * @returns {number} number of deleted rows
+     */
+    async deleteUserPokemon(userId, pokemonId) {
+        const preparedQuery = {
+            text : `DELETE FROM user_has_pokemon
+            WHERE user_id = $1 AND pokemon_id = $2`,
+            values: [userId, pokemonId]
+        }
+        const result = await this.client.query(preparedQuery);
+        return result.rowCount;
+    };
+
 };
 
 module.exports = new UserPokemon(client);

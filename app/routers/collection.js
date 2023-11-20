@@ -25,5 +25,14 @@ collectionRouter.get("/", userPokemonController.getUsersPokemonsCollection);
  */
 collectionRouter.post("/", userPokemonController.addUserPokemon);
 
+/**
+ * @route DELETE /me/collection/:pokemonId
+ * @group UserPokemon - Deleting the pokemon from the user's pokemons collection
+ * @param {number} pokemonId - The id of the pokemon to delete
+ * @returns {void} 204 - No content response
+ * @returns {APIError} error
+ */
+collectionRouter.delete("/:pokemonId(\\d+)", userPokemonController.deleteUserPokemonByIds);
+
 
 module.exports = collectionRouter;
