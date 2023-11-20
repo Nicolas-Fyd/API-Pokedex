@@ -7,11 +7,13 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-const { pokemonRouter, typeRouter, authentificationRouter } = require("./app/routers/index");
+const { pokemonRouter, typeRouter, authentificationRouter, collectionRouter } = require("./app/routers/index");
+const authentificationMiddleware = require('./app/services/authentificationMiddleware/authentificationMiddleware');
 
 app.use("/pokemon", pokemonRouter);
 app.use("/type", typeRouter);
 app.use(authentificationRouter);
+app.use("/me/collection", authentificationMiddleware.isAuthenticated, collectionRouter);
 
 // Error management
 const errorModule = require("./app/services/error/errorHandling");
