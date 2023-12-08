@@ -12,9 +12,6 @@ const errorModule = {
     async manage(err, _, res, __) {
         debug(err);
         return res.status(err.code || 500).json({ message : err.message});
-        // return res.status(Number.isInteger(err.code) ? err.code : 500).json({ message: err.message });
-        // return res.status(Number.isInteger(err.code) ? err.code : 500).send(err.message);
-        // return res.status(err.code || 500).send(err.message || 'Erreur interne du serveur');
     },
 
     /**

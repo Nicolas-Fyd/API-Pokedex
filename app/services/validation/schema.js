@@ -8,8 +8,8 @@ const passwordFormat = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])
 const userSchema = Joi.object({
     pseudo: Joi.string().pattern(nameFormat).required().messages({
         'string.pattern.base': `Caractère(s) non autorisé(s) dans le champ 'Pseudo'.`,
-        'string.empty': `Le champ 'Prénom' ne peut pas être vide.`,
-        'any.required': `Le champ 'Prénom' est manquant.`
+        'string.empty': `Le champ 'Pseudo' ne peut pas être vide.`,
+        'any.required': `Le champ 'Pseudo' est manquant.`
       }),
     email: Joi.string().pattern(emailFormat).required().messages({
         'string.pattern.base': `Caractère(s) non autorisé(s) dans le champ 'Email' ou format non valide.`,

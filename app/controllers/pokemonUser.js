@@ -18,10 +18,17 @@ const userPokemonController = {
      */
     async addUserPokemon (req, res, next) {
         try {
-            // checking if the pokemon is already in the user's pokemon collection
-            const userPokemons = await UserPokemon.findUserPokemonByIds(req.user.id, req.body.pokemonId);
+            // checking if the user already has 6 pokemons in his team
+            const userPokemons = await UserPokemon.findAllUsersPokemons(req.user.id);
 
-            if(userPokemons) {
+            if (userPokemons.length >= 6) {
+                return next(new APIError(`Vous avez déjà 6 pokémons dans votre équipe.`,400));
+            }
+
+            // checking if the pokemon is already in the user's pokemon collection
+            const isPokemonInUserTeam = await UserPokemon.findUserPokemonByIds(req.user.id, req.body.pokemonId);
+
+            if(isPokemonInUserTeam) {
                 return next(new APIError(`Ce pokemon est déjà dans votre collection.`,400));
             } 
 
