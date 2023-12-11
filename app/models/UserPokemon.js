@@ -92,8 +92,8 @@ class UserPokemon extends Core {
         FROM pokemon p
         JOIN user_has_pokemon uhp ON uhp.pokemon_id = p.id
 		WHERE uhp.user_id = $1
-        GROUP BY p.id, p.name, p.description, p.height, p.weight, p.hp, p.attack, p.defense, p.spe_attack, p.spe_defense, p.speed, p.image
-        ORDER BY p.id;`,
+        GROUP BY p.id, p.name, p.description, p.height, p.weight, p.hp, p.attack, p.defense, p.spe_attack, p.spe_defense, p.speed, p.image, uhp.created_at
+        ORDER BY uhp.created_at;`,
         values : [userId]
         }
         const result =  await this.client.query(preparedQuery);
